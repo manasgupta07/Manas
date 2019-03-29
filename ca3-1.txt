@@ -1,0 +1,56 @@
+#include<conio.h>
+#include<stdio.h>
+int main()
+{
+ int i,j,sum=0,n;
+ int g[20];
+ int disk;   //loc of head
+ int temp,max;     
+ int dloc;   //loc of disk in array
+ clrscr();
+ printf("Enter Number of Location's:\t");
+ scanf("%d",&n);
+ printf("Enter Position of Head:\t");
+ scanf("%d",&disk);
+ printf("Enter elements of Disk Queue(0-4999):\n");
+ for(i=0;i<n;i++)
+ {
+ scanf("%d",&g[i]);
+ }
+ g[n]=disk;
+ n=n+1;
+ for(i=0;i<n;i++)    // sorting disk locations
+ {
+  for(j=i;j<n;j++)
+  {
+    if(g[i]>g[j])
+    {
+    temp=g[i];
+    g[i]=g[j];
+    g[j]=temp;
+    }
+  }
+ }
+ max=g[n];
+ for(i=0;i<n;i++)   // to find loc of disc in array
+ {
+ if(disk==g[i]) 
+	{ 
+	dloc=i; 
+	break;  
+	}
+ }
+ for(i=dloc;i>=0;i--)
+ {
+ printf("%d -->",g[i]);
+ }
+ printf("0 -->");
+ for(i=dloc+1;i<n;i++)
+ {
+ printf("%d-->",g[i]);
+ }
+ sum=disk+max;
+      printf("\nMovement of Total cylinders: %d",sum);
+ getch();
+ return 0;
+}

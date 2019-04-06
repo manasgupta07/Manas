@@ -1,56 +1,82 @@
-#include<conio.h>
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define LOW 0
+#define HIGH 199
 int main()
 {
- int i,j,sum=0,n;
- int g[20];
- int disk;   //loc of head
- int temp,max;     
- int dloc;   //loc of disk in array
- clrscr();
- printf("Enter Number of Location's:\t");
- scanf("%d",&n);
- printf("Enter Position of Head:\t");
- scanf("%d",&disk);
- printf("Enter elements of Disk Queue(0-4999):\n");
- for(i=0;i<n;i++)
- {
- scanf("%d",&g[i]);
- }
- g[n]=disk;
- n=n+1;
- for(i=0;i<n;i++)    // sorting disk locations
- {
-  for(j=i;j<n;j++)
+  int i,j;
+  int queue[20];
+  int head, max, q_size, temp, sum;
+  int dloc; //location of disk (head) arr
+  printf("%s\t", "Input no of disk locations");
+  scanf("%d", &q_size);
+
+  printf("%s\t", "Enter head position");
+  scanf("%d", &head);
+
+  printf("%s\n", "Input elements into disk queue(0-4999)");
+  for(i=0; i<q_size; i++)
   {
-    if(g[i]>g[j])
-    {
-    temp=g[i];
-    g[i]=g[j];
-    g[j]=temp;
+    scanf("%d", &queue[i]);
+    if(queue[i]>=5000 || queue[i]<0)
+ 	{
+  		i=i-1;
+  		printf("Invalid Input.");
+ 	}
+  }
+
+  queue[q_size] = head; //add RW head into queue
+  q_size++;
+  //sort the array
+  for(i=0; i<q_size;i++)
+  {
+    int j=1;
+    for( j=i; j<q_size; j++)
+	{
+      if(queue[i]>queue[j])
+	  {
+        temp = queue[i];
+        queue[i] = queue[j];
+        queue[j] = temp;
+      }
     }
   }
- }
- max=g[n];
- for(i=0;i<n;i++)   // to find loc of disc in array
- {
- if(disk==g[i]) 
-	{ 
-	dloc=i; 
-	break;  
-	}
- }
- for(i=dloc;i>=0;i--)
- {
- printf("%d -->",g[i]);
- }
- printf("0 -->");
- for(i=dloc+1;i<n;i++)
- {
- printf("%d-->",g[i]);
- }
- sum=disk+max;
-      printf("\nMovement of Total cylinders: %d",sum);
- getch();
- return 0;
+
+  max = queue[q_size-1];
+  //locate head in the queue
+  for(i=0; i<q_size; i++)
+  {
+    if(head == queue[i])
+	{
+      dloc = i;
+      break;
+    }
+  }
+
+  if(abs(head-LOW) <= abs(head-HIGH))
+  	{
+      for(j=dloc; j>=0; j--)
+	  {
+        printf("%d --> ",queue[j]);
+      }
+      printf("0 -->");
+      for(j=dloc+1; j<q_size; j++)
+	  {
+        printf("%d --> ",queue[j]);
+      }
+    } 
+	else 
+	{
+      for(j=dloc+1; j<q_size; j++){
+          printf("%d --> ",queue[j]);
+      }
+      //printf("4999 -->");
+      for(j=dloc; j>=0; j--){
+          printf("%d --> ",queue[j]);
+      }
+  	}
+  sum  = head + max;
+  printf("\nmovement of total cylinders %d", sum);
+
+  return 0;
 }
